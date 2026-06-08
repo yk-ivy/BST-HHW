@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pockly; Spend Smart, Save Smarter</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #2ecc71;
+      --green-dark: #1a9e52;
+      --green-pale: #e8faf1;
+      --ink: #0f1a14;
+      --ink-light: #3d5247;
+      --cream: #f7faf8;
+      --white: #ffffff;
+      --border: #d4ead9;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 6%;
+      background: rgba(247,250,248,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      color: var(--ink);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo span { color: var(--green); }
+
+    nav a {
+      text-decoration: none;
+      color: var(--ink-light);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--green-dark); }
+
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+
+    .nav-cta {
+      background: var(--ink);
+      color: var(--white) !important;
+      padding: 0.55rem 1.3rem;
+      border-radius: 100px;
+      font-size: 0.85rem !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--green-dark) !important; color: var(--white) !important; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 8rem 6% 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(46,204,113,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--green-pale);
+      border: 1px solid var(--border);
+      color: var(--green-dark);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 2rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 1.05;
+      letter-spacing: -2px;
+      color: var(--ink);
+      max-width: 800px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--green);
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--ink-light);
+      max-width: 500px;
+      line-height: 1.7;
+      margin-top: 1.5rem;
+      font-weight: 300;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; margin-top: 2.5rem;
+      flex-wrap: wrap; justify-content: center;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: var(--white);
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: none; cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-secondary:hover { border-color: var(--green); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex; gap: 3rem; margin-top: 4rem;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--ink);
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--ink-light);
+      font-weight: 500;
+      margin-top: 0.2rem;
+    }
+
+    /* SECTION SHARED */
+    section { padding: 6rem 6%; }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -1px;
+      color: var(--ink);
+      max-width: 600px;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      color: var(--ink-light);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 500px;
+      font-weight: 300;
+    }
+
+    /* FEATURES */
+    #features { background: var(--white); }
+
+    .features-header { text-align: center; margin-bottom: 4rem; }
+    .features-header .section-title,
+    .features-header .section-sub { margin-left: auto; margin-right: auto; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(46,204,113,0.1);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .feature-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      margin-bottom: 0.6rem;
+      color: var(--ink);
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--ink-light);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    /* HOW IT WORKS */
+    #how {
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    #how .section-label { color: var(--green); }
+    #how .section-title { color: var(--white); }
+    #how .section-sub { color: rgba(255,255,255,0.5); }
+
+    .how-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .steps { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 2rem; }
+
+    .step { display: flex; gap: 1.2rem; align-items: flex-start; }
+
+    .step-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--green);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-text h4 {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+      color: var(--white);
+    }
+    .step-text p {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .phone-mockup {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 28px;
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .mock-bar {
+      height: 10px; border-radius: 10px;
+      background: rgba(255,255,255,0.08);
+    }
+    .mock-bar.green { background: var(--green); width: 65%; }
+    .mock-bar.short { width: 40%; }
+
+    .mock-circle {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(46,204,113,0.15);
+      border: 2px solid var(--green);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--green);
+      margin: 0.5rem auto;
+    }
+
+    .mock-row { display: flex; justify-content: space-between; align-items: center; }
+    .mock-label { font-size: 0.78rem; color: rgba(255,255,255,0.35); }
+    .mock-val { font-size: 0.9rem; font-weight: 600; color: var(--white); }
+
+    /* PRICING */
+    #pricing { background: var(--cream); }
+
+    .pricing-header { text-align: center; margin-bottom: 4rem; }
+    .pricing-header .section-title,
+    .pricing-header .section-sub { margin-left: auto; margin-right: auto; }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 2.2rem;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.06); }
+
+    .pricing-card.featured {
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+
+    .featured-tag {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--green);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0.3rem 1rem;
+      border-radius: 100px;
+    }
+
+    .plan-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 0.8rem;
+    }
+    .pricing-card.featured .plan-name { color: rgba(255,255,255,0.5); }
+
+    .plan-price {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.8rem;
+      color: var(--ink);
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+    .pricing-card.featured .plan-price { color: var(--white); }
+
+    .plan-price span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--ink-light);
+    }
+    .pricing-card.featured .plan-price span { color: rgba(255,255,255,0.45); }
+
+    .plan-desc {
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      margin: 0.8rem 0 1.5rem;
+      font-weight: 300;
+      line-height: 1.5;
+    }
+    .pricing-card.featured .plan-desc { color: rgba(255,255,255,0.45); }
+
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2rem; }
+    .plan-features li {
+      font-size: 0.88rem;
+      color: var(--ink-light);
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .pricing-card.featured .plan-features li { color: rgba(255,255,255,0.6); }
+    .plan-features li::before { content: '✓'; color: var(--green); font-weight: 700; }
+
+    .plan-btn {
+      display: block; width: 100%;
+      padding: 0.85rem;
+      border-radius: 100px;
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .plan-btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--ink);
+    }
+    .plan-btn-outline:hover { border-color: var(--green); color: var(--green-dark); }
+
+    .plan-btn-green {
+      background: var(--green);
+      color: var(--white);
+    }
+    .plan-btn-green:hover { background: var(--green-dark); }
+
+    .plan-btn-white {
+      background: var(--white);
+      color: var(--ink);
+    }
+    .plan-btn-white:hover { background: var(--green-pale); }
+
+    /* CTA */
+    #contact {
+      background: var(--green);
+      text-align: center;
+      padding: 6rem 6%;
+    }
+
+    #contact h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      color: var(--white);
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+    }
+
+    #contact p {
+      color: rgba(255,255,255,0.75);
+      font-size: 1.05rem;
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+    }
+
+    .cta-form {
+      display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;
+    }
+
+    .cta-input {
+      padding: 0.85rem 1.4rem;
+      border-radius: 100px;
+      border: none;
+      font-size: 0.95rem;
+      font-family: 'DM Sans', sans-serif;
+      width: 280px;
+      outline: none;
+      color: var(--ink);
+    }
+
+    .cta-submit {
+      background: var(--ink);
+      color: var(--white);
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .cta-submit:hover { background: #1a2e22; }
+
+    /* FOOTER */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      padding: 2rem 6%;
+      font-size: 0.82rem;
+    }
+    footer span { color: var(--green); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .how-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-stats { gap: 2rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Pock<span>ly</span></div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How it works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact" class="nav-cta">Get Started</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">💸 Smart Money for Students</div>
+  <h1>Spend <em>Smart,</em><br/>Save Smarter.</h1>
+  <p class="hero-sub">Pockly helps you plan your pocket money, hit your savings goals, and still treat yourself; without guilt.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Get Started Free</a>
+    <a href="#how" class="btn-secondary">See How It Works</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">10K+</div>
+      <div class="stat-label">Students Saving</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">₹2Cr+</div>
+      <div class="stat-label">Collectively Saved</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">User Rating</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="features-header">
+    <div class="section-label">What We Offer</div>
+    <h2 class="section-title">Everything you need to own your money</h2>
+    <p class="section-sub">Built for students. No hastles, no complexity, just a plan that actually works.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">🎯</span>
+      <h3>Set Your Savings Goal</h3>
+      <p>Tell Pockly how much you want to save and by when. It builds a realistic plan around your budget automatically.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🍫</span>
+      <h3>Scheduled Treat Days</h3>
+      <p>We build in guilt-free spending moments so you never feel deprived and never blow your budget impulsively.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">📊</span>
+      <h3>Visual Spending Breakdown</h3>
+      <p>See exactly where your money goes with clean, simple charts. Know your patterns, fix them fast.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🔔</span>
+      <h3>Weekly Check-ins</h3>
+      <p>Get a friendly nudge every week to review your spending, celebrate wins, and adjust your plan if needed.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🧠</span>
+      <h3>AI Spending Advice</h3>
+      <p>Our AI looks at your habits and gives you personalised tips to save more without changing your lifestyle.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🔒</span>
+      <h3>Private & Secure</h3>
+      <p>Your data stays yours. No ads, no selling your info. Just a clean, private tool for your finances.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="how-inner">
+    <div>
+      <div class="section-label">How It Works</div>
+      <h2 class="section-title">Up and running in 3 steps</h2>
+      <p class="section-sub">No finance degree needed. Just tell us your budget and we handle the rest.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <h4>Enter Your Budget</h4>
+            <p>Tell us your monthly pocket money or allowance. That's it.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <h4>Set Your Goal</h4>
+            <p>Want to save 75%? Buy something specific? We build a plan around your target.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <h4>Follow Your Plan</h4>
+            <p>Pockly splits your money into daily limits, treat days, and savings so you just live your life.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-mockup">
+      <div class="mock-row">
+        <span class="mock-label">Monthly Budget</span>
+        <span class="mock-val">₹3,000</span>
+      </div>
+      <div class="mock-circle">75% <br/><small style="font-size:0.6rem;font-family:'DM Sans';font-weight:300">. saved</small></div>
+      <div class="mock-bar green"></div>
+      <div class="mock-bar" style="width:100%"></div>
+      <div class="mock-row">
+        <span class="mock-label">Treat Budget Left</span>
+        <span class="mock-val" style="color:var(--green)">₹180</span>
+      </div>
+      <div class="mock-row">
+        <span class="mock-label">Saved So Far</span>
+        <span class="mock-val">₹2,100</span>
+      </div>
+      <!-- <div class="mock-bar short"></div> -->
+      <div class="mock-row">
+        <span class="mock-label">Next Treat Day</span>
+        <span class="mock-val">Friday 🎉</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="pricing-header">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">Plans that won't break your budget</h2>
+    <p class="section-sub">Start free. Upgrade when you're ready. Cancel anytime.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="plan-name">Free</div>
+      <div class="plan-price">₹0 <span>/ month</span></div>
+      <p class="plan-desc">Perfect to get started and learn the basics.</p>
+      <ul class="plan-features">
+        <li>Budget planner</li>
+        <li>1 savings goal</li>
+        <li>Weekly check-ins</li>
+        <li>Basic spending chart</li>
+      </ul>
+      <a href="#contact" class="plan-btn plan-btn-outline">Get Started</a>
+    </div>
+
+    <div class="pricing-card featured">
+      <div class="featured-tag">Most Popular</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">₹199 <span>/ month</span></div>
+      <p class="plan-desc">For students serious about building better money habits.</p>
+      <ul class="plan-features">
+        <li>Everything in Free</li>
+        <li>Unlimited goals</li>
+        <li>Treat day scheduler</li>
+        <li>AI spending advice</li>
+        <li>Detailed analytics</li>
+      </ul>
+      <a href="#contact" class="plan-btn plan-btn-green">Get Pro</a>
+    </div>
+
+    <div class="pricing-card">
+      <div class="plan-name">Premium</div>
+      <div class="plan-price">₹499 <span>/ month</span></div>
+      <p class="plan-desc">Includes 1-on-1 coaching for serious savers.</p>
+      <ul class="plan-features">
+        <li>Everything in Pro</li>
+        <li>Monthly coaching call</li>
+        <li>Investment basics guide</li>
+        <li>Priority support</li>
+        <li>Custom savings reports</li>
+      </ul>
+      <a href="#contact" class="plan-btn plan-btn-outline">Get Premium</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / CONTACT -->
+<section id="contact">
+  <h2>Ready to save smarter?</h2>
+  <p>Join thousands of students already using Pockly. It's free to start.</p>
+  <div class="cta-form">
+    <input class="cta-input" type="email" placeholder="Enter your email address"/>
+    <button class="cta-submit" onclick="alert('Welcome to Pockly! 🎉')">Get Started Free</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <span>Pockly</span> Spend Smart, Save Smarter. Made with 💚 for students.</p>
+  <p> This website is made for demonstration purposes for a school project and not for actual use.</p>
+</footer>
+
+</body>
+</html>
